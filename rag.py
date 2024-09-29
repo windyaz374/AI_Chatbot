@@ -22,6 +22,8 @@ from semantic_chunking_helper import SematicChunkingHelper
 from langchain.retrievers.document_compressors import CrossEncoderReranker
 from langchain.document_loaders import PDFPlumberLoader, DirectoryLoader
 
+import torch
+
 set_debug(True)
 
 logging.basicConfig(
@@ -35,6 +37,11 @@ performance_logger = PerformanceLogger()
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
+# GPU
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
+print('device = "cuda" if torch.cuda.is_available() else "cpu"')
+print(device)
 
 class RAG:
     """RAG Class Helper"""
@@ -59,7 +66,7 @@ class RAG:
         chunks = filter_complex_metadata(docs)
         embeddings = HuggingFaceInstructEmbeddings(
             model_name="hkunlp/instructor-xl",
-            model_kwargs={"device": "cpu"},  # note for Apple Silicon Chip use "mps"
+            model_kwargs={"device": device},  # note for Apple Silicon Chip use "mps"
         )
         semantic_chunking = SematicChunkingHelper(
             docs=chunks, embeddings=embeddings, buffer_size=2, breakpoint_threshold=50
@@ -128,7 +135,7 @@ class RAG:
 
         embeddings = HuggingFaceInstructEmbeddings(
             model_name="hkunlp/instructor-xl",
-            model_kwargs={"device": "cpu"},  # note for Apple Silicon Chip use "mps"
+            model_kwargs={"device": device},  # note for Apple Silicon Chip use "mps"
         )
 
         vector_store = Chroma(
@@ -139,7 +146,7 @@ class RAG:
 
         base_retriever = vector_store.as_retriever(search_kwargs={"k": 10})
         model = HuggingFaceCrossEncoder(
-            model_name="BAAI/bge-reranker-base", model_kwargs={"device": "mps"}
+            model_name="BAAI/bge-reranker-base", model_kwargs={"device": device}
         )
         reranker = CrossEncoderReranker(model=model, top_n=2)
         self.retriever = ContextualCompressionRetriever(
