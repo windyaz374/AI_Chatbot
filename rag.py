@@ -5,7 +5,7 @@ from langchain_community.vectorstores.chroma import Chroma
 from langchain_community.chat_models import ChatOllama
 from langchain.schema.output_parser import StrOutputParser
 from langchain.schema.runnable import RunnablePassthrough
-from langchain_community.embeddings.huggingface import HuggingFaceInstructEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.prompts import MessagesPlaceholder
 from langchain.prompts import ChatPromptTemplate
 from langchain.vectorstores.utils import filter_complex_metadata
@@ -57,9 +57,9 @@ class RAG:
             source_dir, glob="**/*.pdf", loader_cls=PDFPlumberLoader
         ).load()
         chunks = filter_complex_metadata(docs)
-        embeddings = HuggingFaceInstructEmbeddings(
-            model_name="hkunlp/instructor-xl",
-            model_kwargs={"device": "cpu"},  # note for Apple Silicon Chip use "mps"
+        embeddings = HuggingFaceEmbeddings(
+            model_name="dangvantuan/vietnamese-embedding",
+            model_kwargs={"device": "mps"},  # note for Apple Silicon Chip use "mps"
         )
         semantic_chunking = SematicChunkingHelper(
             docs=chunks, embeddings=embeddings, buffer_size=2, breakpoint_threshold=50
@@ -94,6 +94,7 @@ class RAG:
                             You are a helpful DEK assistant for question-answering DEK policies. \
                             Do not give me any information outside of PROVIDED CONTEXT. \
                             If you don't know the answer, just say that you don't know. \
+                            You have to answer the question in Vietnamese. \
                             {context}
                             """
         qa_prompt = ChatPromptTemplate.from_messages(
@@ -126,9 +127,9 @@ class RAG:
         if not os.path.exists(self.persist_dir):
             return False
 
-        embeddings = HuggingFaceInstructEmbeddings(
-            model_name="hkunlp/instructor-xl",
-            model_kwargs={"device": "cpu"},  # note for Apple Silicon Chip use "mps"
+        embeddings = HuggingFaceEmbeddings(
+            model_name="dangvantuan/vietnamese-embedding",
+            model_kwargs={"device": "mps"},  # note for Apple Silicon Chip use "mps"
         )
 
         vector_store = Chroma(

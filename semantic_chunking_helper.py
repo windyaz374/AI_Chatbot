@@ -34,7 +34,8 @@ class SematicChunkingHelper:
         self.buffer_size = buffer_size
         self.breakpoint_percentile_threshold = breakpoint_threshold
         self.add_start_index = add_start_index
-        sentences = self.split_sentences_from_docs(docs)
+        sentences, original_sentences = self.split_sentences_from_docs(docs)
+        self.original_sentences = original_sentences
         combined_sentences = self.combine_sentences(sentences=sentences)
         self.embeddings = self.embed_documents_from_combined_sentences(
             embeddings, combined_sentences
@@ -42,11 +43,13 @@ class SematicChunkingHelper:
         distances, _ = self.calculate_cosine_distances(combined_sentences)
         self.text_chunks = self.get_chunks(distances, combined_sentences)
 
-    def split_sentences_from_docs(self, docs: list) -> list:
+    def split_sentences_from_docs(self, docs: list) -> (list, list):
         """Split the texts from docs"""
         sentences_to_dict = []
+        original_sentences = []
         for doc in docs:
             single_sentences_list = re.split(r"(?<=[.?!\n])\s+", doc.page_content)
+            original_sentences.extend(single_sentences_list)
             for i, x in enumerate(single_sentences_list):
                 sentences_to_dict.append({"sentence": x, "index": i})
 
@@ -55,7 +58,7 @@ class SematicChunkingHelper:
             len(sentences_to_dict),
         )
 
-        return sentences_to_dict
+        return sentences_to_dict, original_sentences
 
     def combine_sentences(self, sentences: list[dict]) -> list:
         """
@@ -126,7 +129,8 @@ class SematicChunkingHelper:
         """
         logger.info("semantic_chunking.embed_documents_from_combined_sentences")
         new_embeddings = embeddings.embed_documents(
-            [x["combined_sentence"] for x in combined_sentences]
+            # [x["combined_sentence"] for x in combined_sentences]
+            self.original_sentences
         )
 
         for i, sentence in enumerate(combined_sentences):

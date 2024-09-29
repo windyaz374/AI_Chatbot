@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any, Dict, List, Sequence
 from uuid import UUID
 from langchain_core.callbacks.base import BaseCallbackHandler
