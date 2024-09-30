@@ -25,11 +25,11 @@ def ask_answer_messages(vector_db_ready=False):
             st.session_state["messages"] = [
                 {
                     "role": "assistant",
-                    "content": "Hi, I'm DEK Chatbot, How can I help you?",
+                    "content": "Hi, I'm LLM Chatbot, How can I help you?",
                 }
             ]
             st.session_state.chat_history = [
-                AIMessage(content="Hi, I'm DEK Chatbot, How can I help you?")
+                AIMessage(content="Hi, I'm LLM Chatbot, How can I help you?")
             ]
         else:
             st.session_state["messages"] = [
@@ -169,11 +169,11 @@ def select_model():
 def main_page():
     """Build main UI"""
     st.set_page_config(
-        page_title="DEK ChatBot",
+        page_title="LLM ChatBot",
         layout="wide",
         initial_sidebar_state=st.session_state.get("sbstate", "collapsed"),
     )
-    st.header("Welcome to DEK ChatBot")
+    st.header("Welcome to LLM ChatBot")
     st.session_state["ingestion_spinner"] = st.empty()
     init()
     select_model()

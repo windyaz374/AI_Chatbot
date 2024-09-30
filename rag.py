@@ -73,10 +73,9 @@ class RAG:
 
     def create_conversational_chain(self, model: ChatOllama):
         """Create chat history"""
-        contextualize_q_system_prompt = """Given a chat history and the latest user question \
-                                            which might reference context in the chat history, formulate a standalone question \
-                                            which can be understood without the chat history. Do NOT answer the question, \
-                                            just reformulate it if needed and otherwise return it as is.
+        contextualize_q_system_prompt = """ Dựa lịch sử của cuộc trò chuyện và câu hỏi mới nhất của người dùng,\
+                                            hãy đặt lại câu hỏi sao cho dễ hiểu nhất mà không cần dựa vào lịch sử trò chuyện.\
+                                            Không trả lời câu hỏi, chỉ cần đặt lại khi cần thiết, nếu không hãy giữ nguyên. \
                                         """
         contextualize_q_prompt = ChatPromptTemplate.from_messages(
             [
@@ -91,10 +90,10 @@ class RAG:
         )
 
         qa_system_prompt = """
-                            You are a helpful DEK assistant for question-answering DEK policies. \
-                            Do not give me any information outside of PROVIDED CONTEXT. \
-                            If you don't know the answer, just say that you don't know. \
-                            You have to answer the question in Vietnamese. \
+                            Bạn là môt trợ lý chuyên trả lời các câu hỏi liên quan đến lĩnh vực y tế và du lịch.\
+                            Đừng cung cấp cho tôi bất kỳ thông tin nào ngoài những thông tin được cung cấp. \
+                            Nếu bạn không biết câu trả lời, chỉ cần nói rằng bạn không biết hoặc chưa đủ thông tin \
+                            Bạn hãy trả lời câu hỏi bằng Tiếng Việt. \
                             {context}
                             """
         qa_prompt = ChatPromptTemplate.from_messages(
