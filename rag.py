@@ -58,8 +58,8 @@ class RAG:
         ).load()
         chunks = filter_complex_metadata(docs)
         embeddings = HuggingFaceInstructEmbeddings(
-            model_name="hkunlp/instructor-xl",
-            model_kwargs={"device": "cpu"},  # note for Apple Silicon Chip use "mps"
+            model_name="hkunlp/instructor-large",
+            model_kwargs={"device": "cuda"},  # note for Apple Silicon Chip use "mps"
         )
         semantic_chunking = SematicChunkingHelper(
             docs=chunks, embeddings=embeddings, buffer_size=2, breakpoint_threshold=50
@@ -91,9 +91,10 @@ class RAG:
         )
 
         qa_system_prompt = """
-                            You are a helpful DEK assistant for question-answering DEK policies. \
+                            You are a helpful news assistant for question-answering of multiple news topics. \
                             Do not give me any information outside of PROVIDED CONTEXT. \
                             If you don't know the answer, just say that you don't know. \
+                            You have to answer the question in Vietnamese. \
                             {context}
                             """
         qa_prompt = ChatPromptTemplate.from_messages(
@@ -127,8 +128,8 @@ class RAG:
             return False
 
         embeddings = HuggingFaceInstructEmbeddings(
-            model_name="hkunlp/instructor-xl",
-            model_kwargs={"device": "cpu"},  # note for Apple Silicon Chip use "mps"
+            model_name="hkunlp/instructor-large",
+            model_kwargs={"device": "cuda"},  # note for Apple Silicon Chip use "mps"
         )
 
         vector_store = Chroma(
@@ -139,7 +140,8 @@ class RAG:
 
         base_retriever = vector_store.as_retriever(search_kwargs={"k": 10})
         model = HuggingFaceCrossEncoder(
-            model_name="BAAI/bge-reranker-base", model_kwargs={"device": "mps"}
+            model_name="BAAI/bge-reranker-base", 
+            model_kwargs={"device": "cuda"}
         )
         reranker = CrossEncoderReranker(model=model, top_n=2)
         self.retriever = ContextualCompressionRetriever(

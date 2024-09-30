@@ -153,7 +153,7 @@ def sidebar():
 def select_model():
     """Select LLM"""
     option = None
-    models = ["phi3", "llama2", "llama3"]
+    models = ["phi3", "llama2", "llama3", "llama3.1"]
 
     if "selected_llm" not in st.session_state:
         st.session_state.selected_llm = None
