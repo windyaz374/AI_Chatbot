@@ -79,6 +79,6 @@
 
     pip install -r requirements.txt
 
-## To run the private chatbot
+## To run the private chatbot 2
 
     streamlit run UI.py
