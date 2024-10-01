@@ -107,7 +107,7 @@ def upload():
                 st.write(f"{file.name} is already uploaded")
                 continue
 
-            with open(os.path.join(SOURCE_DIRECTORY, file.name), "wb") as tf:
+            with open(os.path.join(SOURCE_DIRECTORY, file.name), "wb", encoding="utf-8") as tf:
                 tf.write(file.getbuffer())
 
         if new_file_uploaded:
