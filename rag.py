@@ -64,8 +64,11 @@ class RAG:
             source_dir, glob="**/*.pdf", loader_cls=PDFPlumberLoader
         ).load()
         chunks = filter_complex_metadata(docs)
+        
+        model_name = "dangvantuan/vietnamese-embedding"
+        # model_name='hkunlp/instructor-xl'
         embeddings = HuggingFaceInstructEmbeddings(
-            model_name="hkunlp/instructor-xl",
+            model_name=model_name,
             model_kwargs={"device": device},  # note for Apple Silicon Chip use "mps"
         )
         semantic_chunking = SematicChunkingHelper(
@@ -101,6 +104,7 @@ class RAG:
                             You are a helpful DEK assistant for question-answering DEK policies. \
                             Do not give me any information outside of PROVIDED CONTEXT. \
                             If you don't know the answer, just say that you don't know. \
+                            You have to answer the question in Vietnamese. \
                             {context}
                             """
         qa_prompt = ChatPromptTemplate.from_messages(
@@ -132,17 +136,25 @@ class RAG:
 
         if not os.path.exists(self.persist_dir):
             return False
-
+        
+        model_name = "dangvantuan/vietnamese-embedding"
+        # model_name='hkunlp/instructor-xl'
+        
+        # self.persist_dir = PERSIST_DIRECTORY + "_" + model_name
+        
+        print(self.persist_dir)
+        
         embeddings = HuggingFaceInstructEmbeddings(
-            model_name="hkunlp/instructor-xl",
-            model_kwargs={"device": device},  # note for Apple Silicon Chip use "mps"
-        )
+                model_name=model_name,
+                model_kwargs={"device": device},
+            )
 
         vector_store = Chroma(
             persist_directory=self.persist_dir,
             embedding_function=embeddings,
             client_settings=CHROMA_SETTINGS,
         )
+        
 
         base_retriever = vector_store.as_retriever(search_kwargs={"k": 10})
         model = HuggingFaceCrossEncoder(

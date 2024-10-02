@@ -6,7 +6,10 @@ pypdf==4.2.0
 docx2txt==0.8
 psutil==5.9.8
 GPUtil==1.4.0
-sentence-transformers==2.2.2
+sentence-transformers==2.6.1
 InstructorEmbedding==1.0.1
 scikit-learn==1.4.2
 pdfplumber==0.11.0
+
+factsumm~=0.1.5
+numpy~=1.26.4

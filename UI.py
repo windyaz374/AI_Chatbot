@@ -57,6 +57,7 @@ def ask_answer_messages(vector_db_ready=False):
                 response = st.session_state["assistant"].ask(
                     user_text, st.session_state.get("chat_history") or []
                 )
+                
                 agent_text = response["answer"]
                 references = response["context"]
                 if len(references) > 0 and any(
