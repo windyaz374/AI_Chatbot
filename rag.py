@@ -5,7 +5,7 @@ from langchain_community.vectorstores.chroma import Chroma
 from langchain_community.chat_models import ChatOllama
 from langchain.schema.output_parser import StrOutputParser
 from langchain.schema.runnable import RunnablePassthrough
-from langchain_community.embeddings.huggingface import HuggingFaceInstructEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.prompts import MessagesPlaceholder
 from langchain.prompts import ChatPromptTemplate
 from langchain.vectorstores.utils import filter_complex_metadata
