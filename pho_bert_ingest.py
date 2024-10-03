@@ -30,7 +30,7 @@ def ingest_docs_from_source_dir(source_dir=SOURCE_DIRECTORY):
     chunks = filter_complex_metadata(docs)
     embeddings = HuggingFaceEmbeddings(
         model_name=model_name,
-        model_kwargs={"device": "mps"},  # note for Apple Silicon Chip use "mps"
+        model_kwargs={"device": "cpu"},  # note for Apple Silicon Chip use "mps"
     )
     semantic_chunking = SematicChunkingHelper(
         docs=chunks, embeddings=embeddings, buffer_size=2, breakpoint_threshold=50
