@@ -1,0 +1,101 @@
+[
+  {
+    "question": "Food tour là gì?"
+  },
+  {
+    "question": "Cho ví dụ về food tour?",
+    "is_next_question": true
+  },
+  {
+    "question": "Quốc gia nhỏ thứ nhì thế giới là quốc gia nào?",
+    "is_next_question": false
+  },
+  {
+    "question": "Quốc gia đó có diện tích bao nhiêu?",
+    "is_next_question": true
+  },
+  {
+    "question": "Vào lễ Quốc Khánh, Bình Định đón bao nhiêu lượt khách?",
+    "is_next_question": false
+  },
+  {
+    "question": "Hãy cho tôi biết các điểm du lịch nổi bật ở Bình Định",
+    "is_next_question": true
+  },
+  {
+    "question": "Dự án Ninh Chữ Sailing Bay khởi công vào ngày nào?",
+    "is_next_question": false
+  },
+  {
+    "question": "Dự kiến dịp lễ 2-9 có bao nhiêu chuyến bay tới cảng hàng không quốc tế Cam Ranh?",
+    "is_next_question": false
+  },
+  {
+    "question": "Giới thiệu về nơi làm việc của bác sĩ Alexandre Yersin trên đỉnh Hòn Bà",
+    "is_next_question": false
+  },
+  {
+    "question": "Tin tức về đoàn du khách Ấn Độ Sun Pharmaceutical Industries Limited",
+    "is_next_question": false
+  },
+  {
+    "question": "Hà Giang được vinh danh là \"Điểm đến du lịch mới nổi hàng đầu châu Á\" năm nào?",
+    "is_next_question": false
+  },
+  {
+    "question": "Hãng hàng không Vietravel (Vietravel Airlines) được vinh danh là Hãng hàng không có trải nghiệm dành cho du lịch hàng đầu châu Á bao nhiêu lần?",
+    "is_next_question": false
+  },
+  {
+    "question": "Độ cao của Núi Bà Đen?",
+    "is_next_question": false
+  },
+  {
+    "question": "Trong bình chọn 100 món xào ngon nhất, trang chuyên về ẩm thực Taste Atlas xếp rau muống xào tỏi đứng thứ bao nhiêu?",
+    "is_next_question": false
+  },
+  {
+    "question": "Số lượng khách quốc tế đến Việt Nam trong tháng 8/2024 là bao nhiêu và tăng trưởng so với cùng kỳ năm trước như thế nào?",
+    "is_next_question": false
+  },
+  {
+    "question": "Các tour Đông Bắc Á được giảm bao nhiêu tại hội chợ Hội chợ ITE HCMC 2024?",
+    "is_next_question": false
+  },
+  {
+    "question": "Món bún bò Huế ở Đà Nẵng có điểm gì đặc trưng nào?",
+    "is_next_question": false
+  },
+  {
+    "question": "Lượng khách du lịch đến Đà Nẵng dịp lễ 2.9 tăng bao nhiêu so với cùng kỳ năm 2023?",
+    "is_next_question": true
+  },
+  {
+    "question": "Vì sao nhiều gia đình chuyển sang du lịch bằng đường bộ trong dịp lễ 2/9?",
+    "is_next_question": true
+  },
+  {
+    "question": "TP HCM tổ chức bắn pháo hoa ở mấy địa điểm trong dịp Quốc khánh?",
+    "is_next_question": true
+  },
+  {
+    "question": "Du khách tham quan di tích Huế vào ngày Quốc khánh sẽ được miễn phí trong khoảng thời gian nào trong ngày?",
+    "is_next_question": true
+  },
+  {
+    "question": "Thành phố Samjiyon, Triều Tiên có những cơ sở nào phục vụ cho cư dân và du khách?",
+    "is_next_question": false
+  },
+  {
+    "question": "Lithuania được xếp hạng là quốc gia hạnh phúc nhất thế giới theo báo cáo nào?",
+    "is_next_question": false
+  },
+  {
+    "question": "Người Việt đã có mặt trên đảo Lý Sơn (Quảng Ngãi) từ thời điểm nào?",
+    "is_next_question": false
+  },
+  {
+    "question": "Việt Nam tiêu thụ bao nhiêu lượng muối trung bình mỗi ngày?",
+    "is_next_question": false
+  }
+]
