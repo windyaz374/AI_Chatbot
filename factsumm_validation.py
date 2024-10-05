@@ -4,6 +4,7 @@ from factsumm import FactSumm
 factsumm = FactSumm()
 
 if __name__ == '__main__':
+
     articles = [
         "Bệnh ung thư trực tràng có khả năng chữa khỏi cao nếu được phát hiện và điều trị sớm",
         "Hành khách đi chân trần trên máy bay ngày càng đông nhưng không phải tất cả các hãng hàng không đều chấp nhận, nhiều hãng Mỹ cấm bay nếu khách không đi tất",
@@ -30,7 +31,34 @@ if __name__ == '__main__':
         "Nguyên nhân sụp mí mắt có thể do: chấn thương, tác dụng phụ của thuốc điều trị, bệnh tật, bẩm sinh hoặc các nguyên nhân tự nhiên khác",
         "Omicron vốn là một biến thể của chủng virus Sars Cov-2. Trong những tuần gần đây, xuất hiện một biến thể phụ Omicron mới có tên gọi là XBB hoặc là BA.2.10. Biến chủng XBB Omicron là nguyên nhân đang gây bùng lên đợt dịch COVID-19 mới tại Singapore – trong vòng 3 tuần đã phát triển mạnh chiếm hơn 1⁄2 số ca nhiễm mỗi ngày tại đây",
         "kháng thể đơn dòng Evusheld ngừa Covid-19 giúp giảm 83% nguy cơ mắc Covid-19",
+
+        "Trong tháng 8/2024, Việt Nam đón 1,43 triệu lượt khách quốc tế, tăng 17,7 phần trăm so với cùng kỳ năm trước", 
+        "Các tour Đông Bắc Á (Nhật Bản, Hàn Quốc, Đài Loan) được giảm 2 triệu đồng",
+        "Nước dùng thơm ngon, được ninh từ xương bò, kết hợp với nhiều nguyên liệu như chân giò heo, gân bò và chả cua",
+        "Tăng 21,2%", 
+        "Vé máy bay đắt đỏ cùng tình trạng trễ chuyến xảy ra thường xuyên",
+        "Hai địa điểm, một điểm bắn tầm cao ở khu vực đầu đường hầm sông Sài Gòn, TP Thủ Đức và một điểm bắn tầm thấp ở công viên văn hóa Đầm Sen, quận 11",
+        "Từ 7h - 17h30",
+        "Có bệnh viện, khu nghỉ dưỡng trượt tuyết, khách sạn, trung tâm thương mại, văn hóa.",
+        "Quốc gia hạnh phúc nhất thế giới dành cho những người dưới 30 tuổi (gen Z) theo Báo cáo Hạnh phúc Thế giới (World Happiness Report) 2024 của Liên Hợp Quốc.", 
+        "Người Việt đã có mặt trên đảo Lý Sơn vào cuối thế kỷ 16 đầu thế kỷ 17",
+        "Các chỉ số xét nghiệm máu quan trọng bạn cần lưu ý, gồm: WBC, RBC, PLT", 
+        "Có nhiều loại rối loạn đông máu nhưng phổ biến gồm Hemophilia, bệnh von Willebrand, chảy máu liên quan đến bệnh gan hoặc do thiếu vitamin K, suy giảm lượng tiểu cầu trong máu",
+        "Huyết áp cao làm cho động mạch dễ bị vỡ hoặc tắc nghẽn, gây nguy cơ đột quỵ cao hơn",
+        "Nghiên cứu gần đây ước tính lượng muối trung bình tiêu thụ ở Việt Nam là 9,4 g/ngày, gần gấp đôi mức 5g/ngày do Tổ chức Y tế Thế giới (WHO) khuyến nghị",
+        "Người cận từ 6 độ trở lên được xem như cận nặng, cần đeo kính hầu hết thời gian trong ngày",
+        "Tình trạng loạn thị xảy ra do bất thường về giác mạc, lúc ấy, ánh sáng không tập trung đều trên võng mạc khiến người bệnh không nhìn rõ vật thể",
+        "Ngăn chặn vòng sinh sản của muỗi, tiêm ngừa vắc xin, và duy trì vệ sinh môi trường sống để giảm nguy cơ mắc bệnh", 
+        "Tế bào gốc toàn năng (totipotent stem cells TSCs) là loại tế bào gốc linh hoạt nhất, có thể biệt hóa để hình thành toàn bộ phôi thai hoàn chỉnh",
+        "HPV lây nhiễm chủ yếu qua quan hệ tình dục (âm đạo, hậu môn hoặc miệng) nhưng cũng có thể lây từ mẹ sang con, qua thủ thuật y tế không đảm bảo vô khuẩn, hoặc tiếp xúc trực tiếp với bộ phận sinh dục",
+        "Đa số nam giới nhiễm HPV không có triệu chứng rõ ràng. Tuy nhiên, trong một số trường hợp, có thể quan sát thấy dấu hiệu như mụn cóc sinh dục trên bộ phận sinh dục",
+        "Bệnh sởi (Measles) là bệnh nhiễm trùng cấp tính do virus Polinosa Morbillarum gây ra, thường gây sốt, phát ban và có khả năng truyền nhiễm. Bệnh rất dễ lây lan qua không khí khi người bệnh nói chuyện, ho, hắt hơi.",
+        "Bất kỳ ai, đặc biệt là người chưa tiêm vaccine phòng sởi, đều có nguy cơ mắc bệnh. Các nhóm dễ mắc hơn bao gồm trẻ em, người lớn tuổi, phụ nữ mang thai và những người thường xuyên tiếp xúc với người bệnh",
+        "Các triệu chứng nghi ngờ bao gồm loạng choạng, hoa mắt, chóng mặt, ù tai, và buồn nôn. Nếu có dấu hiệu này, nên đến gặp bác sĩ để được tư vấn điều trị kịp thời",
+        "Bệnh động kinh có thể xảy ra ở trẻ em ở mọi lứa tuổi, từ khi sinh ra đến tuổi vị thành niên",
+        "Giữ bình tĩnh, tạo không gian an toàn, nới lỏng quần áo, đặt trẻ nằm nghiêng, không cố gắng khống chế sự cử động của trẻ, và không cho trẻ ăn uống gì khi chưa hoàn toàn tỉnh táo"
     ]
+    
     summaries = [
         "Ung thư trực tràng có thể điều trị được, nhưng hiệu quả của điều trị phụ thuộc vào giai đoạn và loại ung thư",
         "Không, hành khách không được phép đi chân trần trên máy bay",
@@ -57,6 +85,32 @@ if __name__ == '__main__':
         "Nguyên nhân của sụp mí mắt (ptosis) có thể là do độc tơ thần kinh, bệnh thần kinh, ung thư não, đột quất, bệnh mỡ, phẫu thuật, trào ngược vị giác: Sụp mí mắt có thể xảy ra do trào ngược vị giác và các vấn đề về dạ dày",
         "Trong Covid-19, biến thể Omicron là một trong những phiên bản mới nhất của virus SARS-CoV-2 được phát hiện vào tháng 11 năm 2021. Biến thể này được cho là có tỷ lệ lây truyền cao hơn và có thể gây ra các triệu chứng nặng hơn so với các phiên bản trước",
         "Kháng thể đơn dòng Evusheld có thể giúp giảm nguy cơ mắc COVID-19 khoảng 70% đến 85%",
+
+        "Theo thống kê từ Tổng cục Du lịch Việt Nam, số lượng khách quốc tế đến Việt Nam trong tháng 8/2024 là khoảng 420.000 người, tăng tăng 10,5 phần trăm so với tháng 8/2023", 
+        "Tour Đông Bắc Á được giảm 2 triệu đồng tại hội chợ Hội chợ ITE HCMC 2024",
+        "Món bún bò Huế tại Đà Nẵng là một phiên bản của món ăn nổi tiếng này, được chế biến theo kiểu Huế nhưng có thể khác biệt về hương vị và cách làm so với những quán ăn chuyên về món này tại Huế",
+        "Theo các báo cáo về du lịch, lượng khách du lịch đến Đà Nẵng dịp lễ 2.9 thường tăng so với cùng kỳ năm trước. Tuy nhiên, con số chính xác tăng bao nhiêu không được công bố công khai",
+        "Việc đi du lịch bằng đường bộ còn mang lại nhiều lợi ích cho gia đình như tiết kiệm chi phí, có thể lựa chọn các điểm đến gần và đảm bảo an toàn hơn so với phương tiện bay",
+        "Trong dịp Quốc khánh, Thành phố Hồ Chí Minh thường tổ chức bắn pháo hoa tại hai địa điểm chính là: Sông Sài Gòn (Sài Gòn River) và Công viên Đâm Sen (Đầm Sen Park)",
+        "Theo thông tin của di tích Huế, du khách tham quan di tích vào ngày Quốc khánh sẽ được miễn phí trong khoảng thời gian từ 8h00 đến 17h00",
+        "Thành phố Samjiyon, Triều Tiên là một địa điểm du lịch được chú trọng phát triển, ở đây có hầm rượu, một số bất động sản của cơ quan y tế, đường sắt, kiểm lâm, vận tải đường biển, đài quan trắc...",
+        "Theo báo cáo, Lithuania được xếp hạng là quốc gia hạnh phúc nhất thế giới bởi báo cáo Hạnh phúc Thế giới (World Happiness Report)",
+        "Theo các ghi chép lịch sử, người Việt đã có mặt trên đảo Lý Sơn (Quảng Ngãi) từ thời điểm thế kỷ 17",
+        "Xét nghiệm máu là một công cụ quan trọng giúp các bác sĩ và y tá theo dõi tình trạng sức khỏe của bệnh nhân, đặc biệt là sau khi điều trị. Các chỉ số quan trọng trong xét nghiệm máu bao gồm: RBC, WBC, PC, BUN,...",
+        "Các loại rối loạn đông máu phổ biến bao gồm: Rối loạn đông máu huyết động (VTE), Rối loạn đông máu ngoại vi (DVT), Tắc nghẽn động mạch não (Cerebral thrombosis), tắc nghẽn động mạch tim (Myocardial thrombosis)",
+        "Khi huyết áp cao, máu chảy mạnh và gây ra sự co thắt mạch máu, dẫn đến hình thành cục máu đông trong não. Điều này làm giảm lưu lượng máu đến não, gây ra các triệu chứng của đột quỵ như mất chức năng, yếu tay chân, khó nói,...",
+        "Theo Cục Quản lý Thực phẩm và Dược phẩm Việt Nam (Cục Quản lý Thực phẩm), người dân Việt Nam tiêu thụ khoảng 9,5 gam muối mỗi ngày",
+        "Theo thông tin y tế, độ cận nặng nhất là độ cận -2.50 D đến -3.25 D (cận nặng). Còn độ cận nhẹ hơn -6.00 D",
+        "Loạn thị được mô tả là một loại viêm kết mạc ảnh hưởng đến 1 mắt, gây ra các triệu chứng như nốt sạm nhỏ trong tròng trắng mắt và nổi hạch trước tai",
+        "Phòng ngừa sốt xuất huyết bao gồm: Vacciination (tiêm vaccine chống sốt xuất huyết). Sử dụng áo màng, váy, và giày để không được côn trùng đốt. Không ngủ ngoài trời hoặc trong khu vực có các con côn trùng gây bệnh. Đừng để nước và thức ăn bị ô nhiễm",
+        "Tế bào gốc toàn năng là loại tế bào trong cơ thể con người có khả năng phát triển thành các loại tế bào khác nhau trong cơ thể, bao gồm tế bào máu, tế bào gan, tế bào thận,... và có thể được sử dụng để điều trị nhiều bệnh tật.",
+        "HPV có thể được truyền qua giao hợp, quan hệ tình dục và thậm chí là quan hệ tình dục không an toàn (không sử dụng bao cao su). Ngoài ra, người bị nhiễm HPV cũng có thể truyền virus cho gia đình mình thông qua tiếp xúc trực tiếp với những người đã bị nhiễm virus này",
+        "Nam giới nhiễm HPV đa số không có triệu chứng rõ ràng",
+        "Sởi là bệnh nhiễm trùng do virus varicella-zoster gây ra, đặc biệt ảnh hưởng đến trẻ em và người lớn chưa được tiêm chủng. Bệnh này thường xảy ra vào mùa xuân và thu, với các triệu chứng bao gồm đau rát da, mụn nước và sốt. Sởi có thể lan truyền qua tiếp xúc trực tiếp với người bị bệnh hoặc những người đã mắc bệnh trước đó",
+        "Trẻ em dưới 5 tuổi, người lớn trên 65 tuổi, phụ nữ mang thai và người có hệ thống miễn dịch suy yếu",
+        "Triệu chứng cần lưu ý để nhận biết rối loạn tiền đình bao gồm: Sốt cao đột ngột và khó kiểm soát, buồn nôn, đổ mồ hôi nhiều, hơi thở nhanh, tim đập mạnh",
+        "Nguy cơ bị động kinh có thể xảy ra đối với bất kỳ ai, không phân biệt tuổi tác, giới tính hay tình trạng sức khỏe",
+        "Di chuyển ngượi bị động kinh đến một vị trí an toàn, tránh xa nguy hiểm và không có vật sắc nhọn. Nếu bệnh nhân còn tỉnh táo, hãy giúp họ ngồi xuống và cố gắng làm yên tâm. Giúp bệnh nhân nằm ngửa. Gọi cấp cứu gần nhất",
     ]
 
     for idx, (article, summary) in enumerate(zip(articles, summaries), start=1):

@@ -11,11 +11,6 @@
     ollama pull llama3
     You can add more and run on each of them
 
-## Branch to build
-
-    - main: A chatbot without Chat history
-    - master: A chatbot with Chat History(Need improvement on Chat History)
-
 ## Setting Up Your Python 3.11 Development Environment
 
     This guide provides comprehensive instructions for installing Python 3.11, pip (package manager), and virtualenv (for isolated project environments) on both Ubuntu and Windows operating systems.
