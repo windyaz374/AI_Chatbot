@@ -76,17 +76,24 @@ class RAG:
             model_name="dangvantuan/vietnamese-embedding",
             model_kwargs={"device": "cpu"},  # note for Apple Silicon Chip use "mps"
         )
+        err_count = 0
+        for index, chunk in enumerate(chunks):
+            try:
+                semantic_chunking = SematicChunkingHelper(
+                    docs=[chunk], embeddings=embeddings, buffer_size=2, breakpoint_threshold=50
+                )
+                Chroma.from_texts(
+                    texts=semantic_chunking.text_chunks,
+                    embedding=embeddings,
+                    client_settings=CHROMA_SETTINGS,
+                    persist_directory=self.persist_dir,
+                )
+            except Exception as e:
+                err_count += 1
+                logger.error(f"Cannot ingest page {index}: {str(e)}")
 
-        semantic_chunking = SematicChunkingHelper(
-            docs=chunks, embeddings=embeddings, buffer_size=2, breakpoint_threshold=50
-        )
-
-        Chroma.from_texts(
-            texts=semantic_chunking.text_chunks,
-            embedding=embeddings,
-            client_settings=CHROMA_SETTINGS,
-            persist_directory=self.persist_dir,
-        )
+        if err_count > 0:
+            logger.error(f"{err_count} pages not ingested")
 
     def load_retriever(self):
         if self.retriever is not None:
