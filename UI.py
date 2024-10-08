@@ -6,6 +6,10 @@ from utils import list_file_names, create_source_dir
 from utils import list_file_names, create_source_dir
 
 
+def set_input(suggestion):
+    st.session_state.new_input = suggestion
+
+
 def ask_answer_messages(vector_db_ready=False):
     if vector_db_ready:
         if (
@@ -37,25 +41,46 @@ def ask_answer_messages(vector_db_ready=False):
 
     for msg in st.session_state.messages:
         st.chat_message(msg["role"]).write(msg["content"])
+        if msg["role"] == "assistant" and "suggestions" in msg:
+            st.write("Những câu hỏi gợi ý:")
+            for suggestion in msg["suggestions"]:
+                st.button(suggestion, key=suggestion, on_click=set_input, args=(suggestion,))
 
-    if user_text := st.chat_input(placeholder="Type your message here..."):
+    if "new_input" not in st.session_state:
+        st.session_state.new_input = ""
+
+    user_text = st.chat_input(placeholder="Type your message here...")
+
+    # If a suggestion was clicked, use that as the user input
+    if st.session_state.new_input:
+        user_text = st.session_state.new_input
+        st.session_state.new_input = ""  # Reset for next interaction
+
+    if user_text:
         st.session_state.messages.append({"role": "user", "content": user_text})
         st.chat_message("user").write(user_text)
 
-        if user_text:
-            with st.spinner("Thinking..."):
-                response = st.session_state["assistant"].ask(user_text)
-                agent_text = response["answer"]
-                references = response["context"]
-                if len(references) > 0 and any(
+        with st.spinner("Thinking..."):
+            response = st.session_state["assistant"].ask(user_text)
+            agent_text = response["answer"]
+            references = response["context"]
+            suggestions = response["suggestions"].split("\n")
+
+            if len(references) > 0 and any(
                     ref.page_content != "" for ref in references[1:]
-                ):
-                    agent_text += "\n\n----------------------------------SOURCE DOCUMENTS----------------------------------\n\n"
-                    for reference in references:
-                        agent_text += reference.page_content
+            ):
+                agent_text += "\n\n----------------------------------SOURCE DOCUMENTS----------------------------------\n\n"
+                for reference in references:
+                    agent_text += reference.page_content
 
         st.chat_message("assistant").write(agent_text)
-        st.session_state.messages.append({"role": "assistant", "content": agent_text})
+        st.session_state.messages.append({"role": "assistant", "content": agent_text, "suggestions": suggestions})
+
+        st.write("Những câu hỏi gợi ý:")
+        for suggestion in suggestions:
+            st.button(suggestion, key=suggestion, on_click=set_input, args=(suggestion,))
+
+        st.rerun()
 
 
 def ingest():

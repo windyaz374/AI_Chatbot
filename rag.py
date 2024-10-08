@@ -55,10 +55,25 @@ class RAG:
             <s> [INST] Bạn là môt trợ lý ảo chuyên trả lời các câu hỏi liên quan đến lĩnh vực y tế và du lịch.\
             Đừng cung cấp cho tôi bất kỳ thông tin nào ngoài những thông tin được cung cấp. \
             Nếu bạn không biết câu trả lời, chỉ cần nói rằng bạn không biết hoặc chưa đủ thông tin. \
-            Hãy trả lời toàn bộ bằng Tiếng Việt [/INST] </s> 
-            [INST] Question: {question} 
-            Context: {context} 
+            Hãy trả lời toàn bộ bằng Tiếng Việt [/INST] </s>
+            [INST] Question: {question}
+            Context: {context}
             Answer: [/INST]
+            """
+        )
+
+        self.suggestion_prompt = PromptTemplate.from_template(
+            """
+            <s> [INST] Dựa trên câu hỏi và câu trả lời sau đây, hãy đề xuất 3 câu hỏi tiếp theo mà người dùng có thể quan tâm. \
+            Hãy đảm bảo các câu hỏi đề xuất liên quan đến chủ đề hiện tại và giúp người dùng khám phá thêm về vấn đề. \
+            Trả lời bằng tiếng Việt và định dạng câu trả lời dưới dạng danh sách đánh số.  \
+            Chỉ cần đưa ra những câu hỏi gợi ý, không giải thích gì thêm, không dịch nội dung qua tiếng Anh.  \
+            Không đưa vào câu "Here are three potential follow-up questions that users may be interested in:" trong gợi ý. [/INST] </s>
+
+            [INST] Câu hỏi: {question}
+            Câu trả lời: {answer}
+
+            Các câu hỏi đề xuất: [/INST]
             """
         )
 
@@ -121,10 +136,10 @@ class RAG:
         )
 
         chain_from_docs = (
-            RunnablePassthrough.assign(context=(lambda x: format_docs(x["context"])))
-            | self.prompt
-            | self.model
-            | StrOutputParser()
+                RunnablePassthrough.assign(context=(lambda x: format_docs(x["context"])))
+                | self.prompt
+                | self.model
+                | StrOutputParser()
         )
 
         self.chain = RunnableParallel(
@@ -159,7 +174,17 @@ class RAG:
 
         self.filter_answer_from_response(result)
 
+        suggestions = self.generate_suggestions(query, result['answer'])
+
+        # Add suggestions to the result
+        result['suggestions'] = suggestions
+
         return result
+
+    def generate_suggestions(self, question: str, answer: str):
+        suggestion_chain = self.suggestion_prompt | self.model | StrOutputParser()
+        suggestions = suggestion_chain.invoke({"question": question, "answer": answer})
+        return suggestions.strip()
 
     def clear(self):
         """Clear"""
