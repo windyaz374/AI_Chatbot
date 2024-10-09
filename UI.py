@@ -28,14 +28,14 @@ def ask_answer_messages(vector_db_ready=False):
             st.session_state["messages"] = [
                 {
                     "role": "assistant",
-                    "content": "Hi, I'm LLM Chatbot, How can I help you?",
+                    "content": "Xin chào, tôi là LLM Chatbot. Tôi có thể giúp gì cho bạn?",
                 }
             ]
         else:
             st.session_state["messages"] = [
                 {
                     "role": "assistant",
-                    "content": "I am not ready yet. Could you please upload documents to the system for ingestion?",
+                    "content": "Tôi chưa sẵn sàng. Hãy cập nhật tri thức mới cho tôi nhé?",
                 }
             ]
 
@@ -60,7 +60,7 @@ def ask_answer_messages(vector_db_ready=False):
         st.session_state.messages.append({"role": "user", "content": user_text})
         st.chat_message("user").write(user_text)
 
-        with st.spinner("Thinking..."):
+        with st.spinner("Đợi tôi một xíu nhé..."):
             response = st.session_state["assistant"].ask(user_text)
             agent_text = response["answer"]
             references = response["context"]
@@ -167,12 +167,12 @@ def select_model():
         st.session_state.selected_llm = None
     while not option:
         option = st.selectbox(
-            "Select a model to run inference", ("phi3", "llama2", "llama3")
+            "Hãy chọn model LLM mà bạn muốn", ("phi3", "llama2", "llama3")
         )
         if st.session_state.selected_llm != option:
             st.session_state.selected_llm = option
             st.session_state["assistant"] = RAG(option)
-        st.write("You selected:", option)
+        st.write("Bạn chọn:", option)
 
 
 def main_page():
@@ -182,7 +182,7 @@ def main_page():
         layout="wide",
         initial_sidebar_state=st.session_state.get("sbstate", "collapsed"),
     )
-    st.header("Welcome to LLM ChatBot")
+    st.header("Welcome to LLM Chatbot")
     st.session_state["ingestion_spinner"] = st.empty()
     init()
     select_model()
