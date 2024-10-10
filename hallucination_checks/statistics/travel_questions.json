@@ -1,6 +1,9 @@
 [
   {
-    "question": "Food tour là gì?"
+    "question": "Food tour là gì?",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 1",
+    "truth":"Food tour là cách tuyệt vời để tìm hiểu về thành phố vừa đặt chân đến, cô mua tour ẩm thực có hướng dẫn viên địa phương vì họ thường có rất nhiều thông tin hữu ích về điểm đến."
   },
   {
     "question": "Cho ví dụ về food tour?",
@@ -97,5 +100,149 @@
   {
     "question": "Việt Nam tiêu thụ bao nhiêu lượng muối trung bình mỗi ngày?",
     "is_next_question": false
+  },
+  {
+    "question": "Ba Na Hills có gì thú vị không?",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 184",
+    "truth": ""
+  },
+  {
+    "question": "Hãy gợi ý các nhà hàng ở Hà Nội có sao Michelin",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 186",
+    "truth": ""
+  },
+  {
+    "question": "Có những món gì đặc biệt ở nhà hàng đầu tiên?",
+    "is_next_question": true,
+    "ref": "vnexpress_travel_articles.pdf, trang 186",
+    "truth": ""
+  },
+  {
+    "question": "Ở Việt Nam, đi đâu để trải nghiệm thu hoạch ngọc trai?",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 213",
+    "truth": ""
+  },
+  {
+    "question": "Đảo Jeju có vấn đề gì không?",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 228",
+    "truth": "Lượng khách trong nước đến đảo Jeju giảm vào cao điểm hè, trong bối cảnh có nhiều phàn nàn món đặc sản thịt lợn đen bị bán \"chặt chém\"."
+  },
+  {
+    "question": "Phở ở Hà Nội có gì khác so với những nơi khác?",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 243",
+    "truth": "Phở Nam Định đậm vị nước mắm, phổ biến là áp chảo, tái lăn còn phở Hà Nội nước dùng trong và thanh, với các món chính là tái, chín và tái chín."
+  },
+  {
+    "question": "Làm sao để có tình yêu sét đánh?",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 248",
+    "truth": "\"Tôi bị sét đánh từ cái nhìn đầu tiên\", du khách Mỹ Kenneth Harl nhớ lại cuộc gặp gỡ với bạn gái Sema Tekgul trong chuyến du lịch tới Malatya, Thổ Nhĩ Kỳ vào mùa hè 2011."
+  },
+  {
+    "question": "Có những món nào ở Việt Nam được vào top món ngon nhất Châu Á không?",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 26",
+    "truth": "Gỏi bò, gỏi tôm thịt và phở trộn nằm trong danh sách những món trộn ngon nhất châu Á do Taste Atlas bình chọn"
+  },
+  {
+    "question": "Tại sao Phú Quốc vắng khách?",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 43",
+    "truth": "Nhiều khách sạn ở Phú Quốc sát lễ 2/9 mới lấp phòng được 30%, bỏ phụ thu nhưng vẫn \"đói\" khách vì giá vé máy bay cao."
+  },
+  {
+    "question": "Ở Ba Vì có gì lạ không?",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 45",
+    "truth": ""
+  },
+  {
+    "question": "Hà Giang có được đề cử là Điểm đến du lịch hàng đầu châu Á không?",
+    "is_next_question": false,
+    "ref": "tuoitre_articles.pdf, trang 29",
+    "truth": ""
+  },
+  {
+    "question": "Lợi nhuận làm lễ hội sầu riêng là bao nhiêu?",
+    "is_next_question": false,
+    "ref": "tuoitre_articles.pdf, trang 3",
+    "truth": "Bán 3 trái sầu riêng cổ, Dona, Ri6 đã thu về hơn 2,55 tỉ đồng, trong đó \"nữ hoàng sầu riêng\" Ri6 có mức giá hơn 1,4 tỉ đồng."
+  },
+  {
+    "question": "Số lượng khách quốc tế tới Việt Nam du lịch là bao nhiêu?",
+    "is_next_question": false,
+    "ref": "thanhnien_travel_articles.pdf, trang 6",
+    "truth": "Tính chung 8 tháng, khách quốc tế đến nước ta đạt hơn 11,4 triệu lượt người"
+  },
+  {
+    "question": "Trong số lượng khách đó thì bao nhiêu sẽ tới Đà Nẵng?",
+    "is_next_question": false,
+    "ref": "thanhnien_travel_articles.pdf, trang 6",
+    "truth": "Trong đó, Đà Nẵng ước đón 91.000 lượt khách quốc tế, tăng 15,3%"
+  },
+  {
+    "question": "Tại sao khách sạn bị lỗ mà khách quốc tế vẫn đông?",
+    "is_next_question": false,
+    "ref": "thanhnien_travel_articles.pdf, trang 18",
+    "truth": ""
+  },
+  {
+    "question": "Sông Hàn ở đâu?",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 114",
+    "truth": ""
+  },
+  {
+    "question": "Sông Hàn ở Hàn Quốc mới đúng chứ?",
+    "is_next_question": true,
+    "ref": "vnexpress_travel_articles.pdf, trang 114",
+    "truth": ""
+  },
+  {
+    "question": "Hàng khách có tật xấu gì khi lên máy bay?",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 120",
+    "truth": ""
+  },
+  {
+    "question": "Hãy liệt kê thêm?",
+    "is_next_question": true,
+    "ref": "vnexpress_travel_articles.pdf, trang 120",
+    "truth": ""
+  },
+  {
+    "question": "Mua nhà châu Âu ở đâu cho rẻ?",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 131",
+    "truth": ""
+  },
+  {
+    "question": "Hành vi lừa đảo đặt phòng tăng nhiều không?",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 133",
+    "truth": "Hồi tháng 6, Giám đốc an ninh thông tin Marnie Wilking của Booking, nói nền tảng này đã chứng kiến số vụ lừa đảo gia tăng từ 500% lên 900% trong 18 tháng qua. Kẻ xấu sử dụng trí tuệ nhân tạo (AI) để thực hiện các vụ lừa đảo tinh vi hơn."
+  },
+  {
+    "question": "No title found",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 148",
+    "truth": "No title found No content found"
+  },
+  {
+    "question": "Xem kênh TikTok nào để học hỏi đi du lịch?",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 155",
+    "truth": ""
+  },
+  {
+    "question": "Chén thánh ở nhà thờ nào?",
+    "is_next_question": false,
+    "ref": "vnexpress_travel_articles.pdf, trang 164",
+    "truth": ""
   }
 ]
