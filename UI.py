@@ -71,11 +71,12 @@ def ask_answer_messages(vector_db_ready=False):
             ):
                 agent_text += "\n\n----------------------------------SOURCE DOCUMENTS----------------------------------\n\n"
                 for reference in references:
-                    doc_name = reference.metadata.get("document_name", "Unknown Document")
+                    full_doc_path  = reference.metadata.get("document_name", "Unknown Document")
+                    doc_name = doc_name = os.path.basename(full_doc_path)
                     page_index = reference.metadata.get("page_index", "Unknown Page")
                     
-                    agent_text += f"Document: {doc_name}, Page: {page_index}\n"
-                    agent_text += reference.page_content + "\n"
+                    agent_text += f"Document: {doc_name}, Page: {page_index}  \n"
+                    agent_text += reference.page_content + "  \n"
 
         st.chat_message("assistant").write(agent_text)
         st.session_state.messages.append({"role": "assistant", "content": agent_text, "suggestions": suggestions})
