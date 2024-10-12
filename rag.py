@@ -77,50 +77,6 @@ class RAG:
             """
         )
 
-    # def ingest_docs_from_source_dir(self, source_dir=SOURCE_DIRECTORY):
-    #     """Ingest docs from source dir"""
-    #     logger.info("Ingest with model: %s", self.model_name)
-    #     # docs = RAGIngest.load_documents(source_dir)
-    #     # PyPDFDirectoryLoader, supports loading dpf files
-    #     docs = DirectoryLoader(
-    #         source_dir, glob="**/*.pdf", loader_cls=PDFPlumberLoader
-    #     ).load()
-    #     chunks = filter_complex_metadata(docs)
-
-    #     embeddings = HuggingFaceEmbeddings(
-    #         model_name="dangvantuan/vietnamese-embedding",
-    #         model_kwargs={"device": "cpu"},  # note for Apple Silicon Chip use "mps"
-    #     )
-    #     err_count = 0
-    #     for index, chunk in enumerate(chunks):
-    #         try:
-    #             # Extract the document name from the file path and add it to the metadata
-    #             doc_name = chunk.metadata.get("source")  
-    #             page_number = chunk.metadata.get("page")  
-
-    #             # Add custom metadata (doc_name and page_number)
-    #             chunk.metadata["document_name"] = doc_name
-    #             chunk.metadata["page_index"] = page_number
-
-    #             semantic_chunking = SematicChunkingHelper(
-    #                 docs=[chunk], embeddings=embeddings, buffer_size=2, breakpoint_threshold=50
-    #             )
-
-    #             Chroma.from_texts(
-    #                 texts=semantic_chunking.text_chunks,
-    #                 embedding=embeddings,
-    #                 metadatas=[chunk.metadata for _ in semantic_chunking.text_chunks],  # Attach metadata to each chunk
-    #                 client_settings=CHROMA_SETTINGS,
-    #                 persist_directory=self.persist_dir,
-    #             )
-                
-    #         except Exception as e:
-    #             err_count += 1
-    #             logger.error(f"Cannot ingest page {index}: {str(e)}")
-
-    #     if err_count > 0:
-    #         logger.error(f"{err_count} pages not ingested")
-
     def ingest_docs_from_source_dir(self, source_dir=SOURCE_DIRECTORY):
         """Ingest docs from source dir"""
         logger.info("Ingest with model: %s", self.model_name)
