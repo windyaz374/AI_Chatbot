@@ -77,3 +77,14 @@
 ## To run the private chatbot
 
     streamlit run UI.py
+
+## Useful command
+
+```bash
+# First terminal, run the chroma server
+export CHROMA_SERVER_CORS_ALLOW_ORIGINS='["http://localhost:3000"]'
+chroma run --host localhost --port 8000 --path ./.DB_llama3
+# Second terminal, run the chroma-ui
+git clone https://github.com/thakkaryash94/chroma-ui
+cd chroma-ui/ && npm i && npm run dev
+```
