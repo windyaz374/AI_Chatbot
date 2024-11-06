@@ -74,8 +74,11 @@ def ask_answer_messages(vector_db_ready=False):
                     full_doc_path  = reference.metadata.get("document_name", "Unknown Document")
                     doc_name = doc_name = os.path.basename(full_doc_path)
                     page_index = reference.metadata.get("page_index", "Unknown Page")
-                    
-                    agent_text += f"Document: {doc_name}, Page: {page_index}  \n"
+                    topic = reference.metadata.get("topic", "Unknown Topic")
+                    subtopic = reference.metadata.get("subtopic", "Unknown Subtopic")
+                    title = reference.metadata.get("title", "Unknown Title")
+                    link = reference.metadata.get("link", "Unknown Link")
+                    agent_text += f"Document: {doc_name}, Page: {page_index}    \nTopic: {topic}, Subtopic: {subtopic}  \nTitle: {title}    \nLink: {link}  \n"
                     agent_text += reference.page_content + "  \n"
 
         st.chat_message("assistant").write(agent_text)

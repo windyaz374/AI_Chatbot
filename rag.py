@@ -1,27 +1,27 @@
 import logging
 import os
+import re
+from datetime import datetime
 
-from langchain_community.vectorstores.chroma import Chroma
-from langchain_core.callbacks import StdOutCallbackHandler
-from langchain_community.chat_models import ChatOllama
-from langchain_community.embeddings.ollama import OllamaEmbeddings
-from langchain.schema.output_parser import StrOutputParser
-from langchain.schema.runnable import RunnableConfig, RunnablePassthrough
-from langchain.prompts import PromptTemplate
-from langchain.vectorstores.utils import filter_complex_metadata
-from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY, SOURCE_DIRECTORY
-from ingest import RAGIngest
-from callback_logger import CallbackLogger
-from performance_logger import PerformanceLogger
+from langchain.document_loaders import DirectoryLoader, JSONLoader, PDFPlumberLoader
 from langchain.globals import set_debug
-from langchain_community.cross_encoders import HuggingFaceCrossEncoder
+from langchain.prompts import PromptTemplate
 from langchain.retrievers import ContextualCompressionRetriever
-from semantic_chunking_helper import SematicChunkingHelper
 from langchain.retrievers.document_compressors import CrossEncoderReranker
-from langchain.embeddings import HuggingFaceInstructEmbeddings
-from langchain.document_loaders import PDFPlumberLoader, DirectoryLoader
-from langchain_core.runnables import RunnableParallel
+from langchain.schema.output_parser import StrOutputParser
+from langchain.schema.runnable import RunnablePassthrough
+from langchain.vectorstores.utils import filter_complex_metadata
+from langchain_community.chat_models import ChatOllama
+from langchain_community.cross_encoders import HuggingFaceCrossEncoder
 from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores.chroma import Chroma
+from langchain_core.runnables import RunnableParallel
+
+# from ingest import RAGIngest
+from callback_logger import CallbackLogger
+from constants import CHROMA_SETTINGS, PERSIST_DIRECTORY, SOURCE_DIRECTORY, MODELS
+from performance_logger import PerformanceLogger
+from semantic_chunking_helper import SematicChunkingHelper
 
 set_debug(True)
 
@@ -34,6 +34,7 @@ performance_logger = PerformanceLogger()
 
 
 def format_docs(docs):
+    """Returns a string with all the page_content joined with double newlines."""
     return "\n\n".join(doc.page_content for doc in docs)
 
 
@@ -81,41 +82,86 @@ class RAG:
         """Ingest docs from source dir"""
         logger.info("Ingest with model: %s", self.model_name)
 
-        # Load PDF files and split them into chunks
-        docs = DirectoryLoader(
-            source_dir, glob="**/*.pdf", loader_cls=PDFPlumberLoader
-        ).load()
+        def medical_metadata_func(record: dict, metadata: dict) -> dict:
+            metadata["title"] = record.get("title")
+            metadata["link"] = record.get("link")
+            metadata["topic"] = "y tế"
+            # Extract subtopic
+            file_source = metadata.get("source")
+            metadata["subtopic"] = (
+                os.path.basename(file_source).split(".")[0] if file_source else None
+            )
+            # Extract created_date
+            date_str = re.search(
+                r"\d{2}/\d{2}/\d{4}", record.get("created_date")
+            ).group()
+            date_obj = datetime.strptime(date_str, "%d/%m/%Y")
+            metadata["created_date"] = date_obj
+            return metadata
 
+        json_docs = DirectoryLoader(
+            source_dir,
+            glob="**/*.json",
+            loader_cls=JSONLoader,
+            loader_kwargs={
+                "jq_schema": ".[]",
+                "content_key": "content",
+                "metadata_func": medical_metadata_func,
+            },
+            show_progress=True,
+            use_multithreading=True,
+        ).load()
+        # print(json_docs[0].metadata)
+        docs = DirectoryLoader(
+            source_dir,
+            glob="**/*.pdf",
+            loader_cls=PDFPlumberLoader,
+            show_progress=True,
+            use_multithreading=True,
+        ).load()
+        if json_docs is not None:
+            docs.extend(json_docs)
         chunks = filter_complex_metadata(docs)
 
         embeddings = HuggingFaceEmbeddings(
-            model_name="dangvantuan/vietnamese-embedding",
-            model_kwargs={"device": "cpu"},  # use "mps" for Apple Silicon Chip
+            model_name=MODELS.get("embeddings"),
+            model_kwargs={"device": MODELS.get("device")},  # use "mps" for Apple Silicon Chip
         )
-        
+
         err_count = 0
         for index, chunk in enumerate(chunks):
             try:
-                # Extract the document name and page number
-                doc_name = chunk.metadata.get("source", "Unknown Document")  # Extract doc path/name
-                page_number = chunk.metadata.get("page", "Unknown Page")  # Extract page number
+                # Extract the topic, document name and page number
+                topic = chunk.metadata.get("topic", "du lịch")
+                doc_name = chunk.metadata.get(
+                    "source", "Unknown Document"
+                )  # Extract doc path/name
+                page_number = chunk.metadata.get(
+                    "page", "Unknown Page"
+                )  # Extract page number
 
                 # Add the document name and page number to the metadata
+                chunk.metadata["topic"] = topic
                 chunk.metadata["document_name"] = doc_name
                 chunk.metadata["page_index"] = page_number
 
                 # Perform semantic chunking and store chunks with metadata
                 semantic_chunking = SematicChunkingHelper(
-                    docs=[chunk], embeddings=embeddings, buffer_size=2, breakpoint_threshold=50
+                    docs=[chunk],
+                    embeddings=embeddings,
+                    buffer_size=2,
+                    breakpoint_threshold=50,
                 )
                 Chroma.from_texts(
                     texts=semantic_chunking.text_chunks,
                     embedding=embeddings,
-                    metadatas=[chunk.metadata for _ in semantic_chunking.text_chunks],  # Attach metadata
+                    metadatas=[
+                        chunk.metadata for _ in semantic_chunking.text_chunks
+                    ],  # Attach metadata
                     client_settings=CHROMA_SETTINGS,
                     persist_directory=self.persist_dir,
                 )
-                
+
             except Exception as e:
                 err_count += 1
                 logger.error(f"Cannot ingest page {index}: {str(e)}")
@@ -131,8 +177,8 @@ class RAG:
             return False
 
         embeddings = HuggingFaceEmbeddings(
-            model_name="dangvantuan/vietnamese-embedding",
-            model_kwargs={"device": "cpu"},  # note for Apple Silicon Chip use "mps"
+            model_name=MODELS.get("embeddings"),
+            model_kwargs={"device": MODELS.get("device")},  # note for Apple Silicon Chip use "mps"
         )
 
         vector_store = Chroma(
@@ -149,10 +195,10 @@ class RAG:
         )
 
         chain_from_docs = (
-                RunnablePassthrough.assign(context=(lambda x: format_docs(x["context"])))
-                | self.prompt
-                | self.model
-                | StrOutputParser()
+            RunnablePassthrough.assign(context=(lambda x: format_docs(x["context"])))
+            | self.prompt
+            | self.model
+            | StrOutputParser()
         )
 
         self.chain = RunnableParallel(
@@ -187,10 +233,10 @@ class RAG:
 
         self.filter_answer_from_response(result)
 
-        suggestions = self.generate_suggestions(query, result['answer'])
+        suggestions = self.generate_suggestions(query, result["answer"])
 
         # Add suggestions to the result
-        result['suggestions'] = suggestions
+        result["suggestions"] = suggestions
 
         return result
 

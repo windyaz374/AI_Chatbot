@@ -35,3 +35,12 @@ CHROMA_SETTINGS = Settings(
     anonymized_telemetry=False,
     is_persistent=True,
 )
+
+MODELS = {
+  # "device": "cuda",
+  # "embeddings": "keepitreal/vietnamese-sbert",
+  "device": "cpu",
+  "embeddings": "dangvantuan/vietnamese-embedding",
+  "reranker": "BAAI/bge-reranker-base",
+  "main_llm": "llama3",
+}
