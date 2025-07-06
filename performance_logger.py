@@ -25,7 +25,7 @@ class PerformanceLogger:
         self.end_time = datetime.datetime.now()
         difference = self.end_time - self.start_time
         filename = "report.csv"
-        with open(filename, 'a') as csvfile: 
+        with open(filename, 'a', encoding="utf-8") as csvfile: 
             csvwriter = csv.writer(csvfile)
             csvwriter.writerow([self.machine, self.cpu, self.ram, self.gpu, self.model, self.question,self.answer,str(self.record["retriever"]), str(self.record["llm"]), str(difference.total_seconds())])
 

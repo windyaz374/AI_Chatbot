@@ -11,11 +11,6 @@
     ollama pull llama3
     You can add more and run on each of them
 
-## Branch to build
-
-    - main: A chatbot without Chat history
-    - master: A chatbot with Chat History(Need improvement on Chat History)
-
 ## Setting Up Your Python 3.11 Development Environment
 
     This guide provides comprehensive instructions for installing Python 3.11, pip (package manager), and virtualenv (for isolated project environments) on both Ubuntu and Windows operating systems.
@@ -82,3 +77,14 @@
 ## To run the private chatbot
 
     streamlit run UI.py
+
+## Useful command
+
+```bash
+# First terminal, run the chroma server
+export CHROMA_SERVER_CORS_ALLOW_ORIGINS='["http://localhost:3000"]'
+chroma run --host localhost --port 8000 --path ./.DB_llama3
+# Second terminal, run the chroma-ui
+git clone https://github.com/thakkaryash94/chroma-ui
+cd chroma-ui/ && npm i && npm run dev
+```

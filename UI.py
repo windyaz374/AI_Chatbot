@@ -1,13 +1,16 @@
 import os
 import streamlit as st
 from rag import RAG
-from langchain_core.messages import AIMessage, HumanMessage
-from constants import SOURCE_DIRECTORY, DOCUMENT_MAP
+from constants import SOURCE_DIRECTORY, DOCUMENT_MAP, PERSIST_DIRECTORY
+from utils import list_file_names, create_source_dir
 from utils import list_file_names, create_source_dir
 
 
+def set_input(suggestion):
+    st.session_state.new_input = suggestion
+
+
 def ask_answer_messages(vector_db_ready=False):
-    """ask_answer_messages if vectorstore db ready"""
     if vector_db_ready:
         if (
             st.session_state.get("messages") is not None
@@ -25,55 +28,70 @@ def ask_answer_messages(vector_db_ready=False):
             st.session_state["messages"] = [
                 {
                     "role": "assistant",
-                    "content": "Hi, I'm DEK Chatbot, How can I help you?",
+                    "content": "Xin chào, tôi là LLM Chatbot. Tôi có thể giúp gì cho bạn?",
                 }
-            ]
-            st.session_state.chat_history = [
-                AIMessage(content="Hi, I'm DEK Chatbot, How can I help you?")
             ]
         else:
             st.session_state["messages"] = [
                 {
                     "role": "assistant",
-                    "content": "I am not ready yet. Could you please upload documents to the system for ingestion?",
+                    "content": "Tôi chưa sẵn sàng. Hãy cập nhật tri thức mới cho tôi nhé?",
                 }
-            ]
-            st.session_state.chat_history = [
-                AIMessage(
-                    content="I am not ready now. Could you please upload documents to the system for ingestion?"
-                )
             ]
 
     for msg in st.session_state.messages:
         st.chat_message(msg["role"]).write(msg["content"])
+        if msg["role"] == "assistant" and "suggestions" in msg:
+            st.write("Những câu hỏi gợi ý:")
+            for suggestion in msg["suggestions"]:
+                st.button(suggestion, key=suggestion, on_click=set_input, args=(suggestion,))
 
-    if user_text := st.chat_input(placeholder="Type your message here..."):
+    if "new_input" not in st.session_state:
+        st.session_state.new_input = ""
+
+    user_text = st.chat_input(placeholder="Type your message here...")
+
+    # If a suggestion was clicked, use that as the user input
+    if st.session_state.new_input:
+        user_text = st.session_state.new_input
+        st.session_state.new_input = ""  # Reset for next interaction
+
+    if user_text:
         st.session_state.messages.append({"role": "user", "content": user_text})
         st.chat_message("user").write(user_text)
-        st.session_state.chat_history.append(HumanMessage(content=user_text))
 
-        if user_text:
-            with st.spinner("Thinking..."):
-                response = st.session_state["assistant"].ask(
-                    user_text, st.session_state.get("chat_history") or []
-                )
-                agent_text = response["answer"]
-                references = response["context"]
-                if len(references) > 0 and any(
+        with st.spinner("Đợi tôi một xíu nhé..."):
+            response = st.session_state["assistant"].ask(user_text)
+            agent_text = response["answer"]
+            references = response["context"]
+            suggestions = response["suggestions"].split("\n")
+
+            if len(references) > 0 and any(
                     ref.page_content != "" for ref in references[1:]
-                ):
-                    agent_text += "\n\n----------------------------------SOURCE DOCUMENTS----------------------------------\n\n"
-                    for reference in references:
-                        agent_text += reference.page_content
+            ):
+                agent_text += "\n\n----------------------------------SOURCE DOCUMENTS----------------------------------\n\n"
+                for reference in references:
+                    full_doc_path  = reference.metadata.get("document_name", "Unknown Document")
+                    doc_name = doc_name = os.path.basename(full_doc_path)
+                    page_index = reference.metadata.get("page_index", "Unknown Page")
+                    topic = reference.metadata.get("topic", "Unknown Topic")
+                    subtopic = reference.metadata.get("subtopic", "Unknown Subtopic")
+                    title = reference.metadata.get("title", "Unknown Title")
+                    link = reference.metadata.get("link", "Unknown Link")
+                    agent_text += f"Document: {doc_name}, Page: {page_index}    \nTopic: {topic}, Subtopic: {subtopic}  \nTitle: {title}    \nLink: {link}  \n"
+                    agent_text += reference.page_content + "  \n"
 
-                st.session_state.chat_history.append(AIMessage(content=agent_text))
-                st.chat_message("assistant").write(agent_text)
-                st.session_state.messages.append({"role": "assistant", "content": agent_text})
+        st.chat_message("assistant").write(agent_text)
+        st.session_state.messages.append({"role": "assistant", "content": agent_text, "suggestions": suggestions})
+
+        st.write("Những câu hỏi gợi ý:")
+        for suggestion in suggestions:
+            st.button(suggestion, key=suggestion, on_click=set_input, args=(suggestion,))
+
+        st.rerun()
 
 
 def ingest():
-    """Load docs to LLM"""
-
     def disable():
         st.session_state.disabled = True
 
@@ -153,27 +171,26 @@ def sidebar():
 def select_model():
     """Select LLM"""
     option = None
-    models = ["phi3", "llama2", "llama3"]
-
     if "selected_llm" not in st.session_state:
         st.session_state.selected_llm = None
-
     while not option:
-        option = st.selectbox("Select a model to run interference", models)
+        option = st.selectbox(
+            "Hãy chọn model LLM mà bạn muốn", ("phi3", "llama2", "llama3")
+        )
         if st.session_state.selected_llm != option:
             st.session_state.selected_llm = option
             st.session_state["assistant"] = RAG(option)
-        st.write("You selected:", option)
+        st.write("Bạn chọn:", option)
 
 
 def main_page():
     """Build main UI"""
     st.set_page_config(
-        page_title="DEK ChatBot",
+        page_title="LLM ChatBot",
         layout="wide",
         initial_sidebar_state=st.session_state.get("sbstate", "collapsed"),
     )
-    st.header("Welcome to DEK ChatBot")
+    st.header("Welcome to LLM Chatbot")
     st.session_state["ingestion_spinner"] = st.empty()
     init()
     select_model()
